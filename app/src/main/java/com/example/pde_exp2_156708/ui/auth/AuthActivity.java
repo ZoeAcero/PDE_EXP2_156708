@@ -39,7 +39,7 @@ public class AuthActivity extends AppCompatActivity {
         authViewModel.error.observe(this, this::showFirebaseError);
 
         // Observar errores de validación de contraseña (en el cliente)
-        authViewModel.getValidationError().observe(this, this::showValidationError);
+        authViewModel.validationError.observe(this, this::showValidationError);
 
         // Listeners
         loginButton.setOnClickListener(v ->
