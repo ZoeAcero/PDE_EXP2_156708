@@ -6,57 +6,57 @@ import androidx.lifecycle.ViewModel;
 import com.example.pde_exp2_156708.data.repository.AuthRepository;
 import com.google.firebase.auth.FirebaseUser;
 
-class AuthViewModel : ViewModel() {
+public class AuthViewModel extends ViewModel {
 
-    private val authRepository = AuthRepository()
+    private final AuthRepository authRepository = new AuthRepository();
 
     // Exponer el estado del usuario y los errores a la UI
-    val user: LiveData<FirebaseUser> = authRepository.getCurrentUser();
-    val error: LiveData<String> = authRepository.getError();
+    public final LiveData<FirebaseUser> user = authRepository.getCurrentUser();
+    public final LiveData<String> error = authRepository.getError();
 
-    private val _validationError = MutableLiveData<String>();
-    val validationError: LiveData<String> = _validationError
+    private final MutableLiveData<String> _validationError = new MutableLiveData<>();
+    public final LiveData<String> validationError = _validationError;
 
     /**
      * Valida la contraseña según la política restrictiva y luego intenta el registro.
-     * Longitud mínima 8, Mayúsculas, Minúsculas, Numéricos.
+     * Longitud mínima 8, mayúsculas, minúsculas, numéricos.
      */
-    fun register(email: String, password: String) {
+    public void register(String email, String password) {
         if (!isPasswordValid(password)) {
-            return // La validación falló, el error ya está en _validationError
+            return; // La validación falló, el error ya está en _validationError
         }
-        // Si la validación en el cliente es exitosa, intentar el registro en Firebase
+        // Intentar el registro en Firebase (método de AuthRepository)
         authRepository.register(email, password);
     }
 
     /**
      * Intenta iniciar sesión.
      */
-    fun login;(email: String, password: String) {
+    public void login(String email, String password) {
         authRepository.login(email, password);
     }
 
     /**
      * Comprueba que la contraseña cumple con la política restrictiva.
      */
-    private fun isPasswordValid;(password: String): Boolean {
-        if (password.length < 8) {
-            _validationError.value = "La contraseña debe tener al menos 8 caracteres."
+    private boolean isPasswordValid(String password) {
+        if (password == null || password.length() < 8) {
+            _validationError.setValue("La contraseña debe tener al menos 8 caracteres.");
             return false;
         }
-        if (!password.matches(".*[A-Z].*".toRegex())) {
-            _validationError.value = "La contraseña debe incluir al menos una mayúscula."
+        if (!password.matches(".*[A-Z].*")) {
+            _validationError.setValue("La contraseña debe incluir al menos una mayúscula.");
             return false;
         }
-        if (!password.matches(".*[a-z].*".toRegex())) {
-            _validationError.value = "La contraseña debe incluir al menos una minúscula."
+        if (!password.matches(".*[a-z].*")) {
+            _validationError.setValue("La contraseña debe incluir al menos una minúscula.");
             return false;
         }
-        if (!password.matches(".*[0-9].*".toRegex())) {
-            _validationError.value = "La contraseña debe incluir al menos un carácter numérico."
+        if (!password.matches(".*[0-9].*")) {
+            _validationError.setValue("La contraseña debe incluir al menos un carácter numérico.");
             return false;
         }
-        _validationError.value = null // Limpiar errores si la validación es exitosa
+        _validationError.setValue(null); // Limpiar errores si la validación es exitosa
         return true;
     }
 }

@@ -8,17 +8,29 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings); // Puede ser un layout simple de FrameLayout
+        // Usa el layout que acabamos de crear (activity_settings)
+        setContentView(R.layout.activity_settings);
 
-        // Mostrar el fragmento de preferencias
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.settings_container, new SettingsFragment())
-                .commit();
+        // Si no existe un estado guardado, carga el fragmento
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    // Carga el fragmento en el ID R.id.settings_container
+                    .replace(R.id.settings_container, new SettingsFragment())
+                    .commit();
+        }
 
-        // Agregar botón de vuelta atrás en la Action Bar
+        // Habilitar el botón de retroceso en la barra de acción
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.settings));
         }
+    }
+
+    // Manejar el botón de retroceso de la Action Bar
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

@@ -35,7 +35,7 @@ public class MovieListActivity extends AppCompatActivity {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
         // Observar la lista de películas
-        movieViewModel.movies.observe(this, movies -> {
+        movieViewModel.getMovies().observe(this, movies -> {
             if (movieAdapter == null) {
                 movieAdapter = new MovieAdapter(this, movies);
                 recyclerView.setAdapter(movieAdapter);
