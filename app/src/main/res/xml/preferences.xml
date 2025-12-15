@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="layout_preference"
+        android:title="@string/layout_preference_title"
+        android:summary="@string/layout_preference_summary"
+        android:defaultValue="linear"
+        android:entries="@array/layout_names"
+        android:entryValues="@array/layout_values" />
+
+</PreferenceScreen>
